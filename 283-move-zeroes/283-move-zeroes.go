@@ -1,13 +1,12 @@
 func moveZeroes(nums []int)  {
     n := 0
-    numsLen := len(nums)
-    for i := 0; i < numsLen; i++ {
+    for i := 0; i < len(nums); i++ {
         if nums[i] != 0 {
             nums[n] = nums[i]
             n++
         }
     }
-    for n < numsLen {
+    for n < len(nums) {
         nums[n] = 0
         n++
     }
