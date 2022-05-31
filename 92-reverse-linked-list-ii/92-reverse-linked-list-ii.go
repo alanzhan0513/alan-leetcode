@@ -15,14 +15,14 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
     
     pre := node
     curr := pre.Next
-    tail := curr
+    latest := curr
     for i := left; i <= right; i++ {
         next := curr.Next
         curr.Next = pre
         pre = curr
         curr = next
     }
-    tail.Next = curr
+    latest.Next = curr
     node.Next = pre
     return protect.Next
 }
