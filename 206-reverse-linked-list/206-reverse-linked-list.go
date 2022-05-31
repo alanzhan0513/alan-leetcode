@@ -7,12 +7,11 @@
  */
 func reverseList(head *ListNode) *ListNode {
     var last *ListNode
-    
     for head != nil {
-        nextHead := head.Next
+        next := head.Next
         head.Next = last
         last = head
-        head = nextHead
+        head = next
     }
     return last
 }
