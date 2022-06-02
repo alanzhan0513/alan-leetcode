@@ -10,26 +10,25 @@ func detectCycle(head *ListNode) *ListNode {
     if intersect == nil {
         return nil
     }
-
-    pointer1 := head
-    pointer2 := intersect
     
-    for pointer1 != pointer2 {
-        pointer1 = pointer1.Next
-        pointer2 = pointer2.Next
+    for head != intersect {
+        head = head.Next
+        intersect = intersect.Next
     }
     
-    return pointer1
+    return intersect
 }
 
 func getIntersect(head *ListNode) *ListNode {
     fast := head
-
+    slow := head
+    
     for fast != nil && fast.Next != nil {
         fast = fast.Next.Next
-        head = head.Next
-        if head == fast {
-            return head
+        slow = slow.Next
+        
+        if fast == slow {
+            return fast
         }
     }
     return nil
