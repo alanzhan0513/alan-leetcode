@@ -8,31 +8,31 @@
 func reverseKGroup(head *ListNode, k int) *ListNode {
     // 1. group
     // 2. reverse
-    // 3. update every last and next group's bound
-    protect := &ListNode{0, head}
-    last := protect
+    // 3. update tail and head's ListNode
+    sentinel := &ListNode{0, head}
+    last := sentinel
     for head != nil {
-        end := getEndListNode(head, k)
+        end := getEnd(head, k)
         if end == nil {
             break
         }
         
+        // 2. reverse ListNode in group
         nextGroupHead := end.Next
-        // 2. reverse
-        reverseListNode(head, nextGroupHead)
+        reverse(head, nextGroupHead)
         
-        // 3. update every last and next group's bound
+        // 3
         last.Next = end
         head.Next = nextGroupHead
+        
         
         last = head
         head = nextGroupHead
     }
-    
-    return protect.Next
+    return sentinel.Next
 }
 
-func getEndListNode(head *ListNode, k int) *ListNode {
+func getEnd(head *ListNode, k int) *ListNode {
     for head != nil {
         k--
         if k == 0 {
@@ -43,7 +43,7 @@ func getEndListNode(head *ListNode, k int) *ListNode {
     return nil
 }
 
-func reverseListNode(head *ListNode, end *ListNode) {
+func reverse(head *ListNode, end *ListNode) {
     last := head
     head = head.Next
     for head != end {
