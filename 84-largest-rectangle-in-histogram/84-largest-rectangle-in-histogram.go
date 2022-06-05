@@ -10,7 +10,7 @@ func largestRectangleArea(heights []int) int {
     for _, height := range heights {
         accumulatedWidth := 0
         
-        for len(stack) != 0 && stack[len(stack) - 1].height >= height {
+        for len(stack) != 0 && stack[len(stack) - 1].height > height {
             accumulatedWidth += stack[len(stack) - 1].width
             if max < stack[len(stack) - 1].height * accumulatedWidth {
                 max = stack[len(stack) - 1].height * accumulatedWidth
