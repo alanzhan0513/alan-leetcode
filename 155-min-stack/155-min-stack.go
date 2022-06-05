@@ -12,15 +12,8 @@ func Constructor() MinStack {
 func (this *MinStack) Push(val int)  {
     this.data = append(this.data, val)
 
-    if len(this.min) == 0 {
+    if len(this.min) == 0 || this.min[len(this.min) - 1] >= val {
         this.min = append(this.min, val)
-    } else {
-        currentMin := this.min[len(this.min) - 1]
-        if (currentMin > val) {
-            this.min = append(this.min, val)
-        } else {
-            this.min = append(this.min, currentMin)
-        }
     }
 }
 
@@ -30,8 +23,10 @@ func (this *MinStack) Pop()  {
         return
     }
     
+    if this.data[len(this.data) - 1] == this.min[len(this.min) - 1] {
+        this.min = this.min[:len(this.min) - 1]
+    }
     this.data = this.data[:len(this.data) - 1]
-    this.min = this.min[:len(this.min) - 1]
 }
 
 
