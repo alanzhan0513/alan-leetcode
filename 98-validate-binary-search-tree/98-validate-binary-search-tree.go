@@ -7,7 +7,7 @@
  * }
  */
 func isValidBST(root *TreeNode) bool {
-    return check(root, -(1 << 31), 1 << 31 - 1)
+    return check(root, -(1 << 31), 1 << 31 -1)
 }
 
 func check(root *TreeNode, min, max int) bool {
@@ -15,7 +15,7 @@ func check(root *TreeNode, min, max int) bool {
         return true
     }
     
-    if min > root.Val || max < root.Val {
+    if min > root.Val || root.Val > max {
         return false
     }
     
