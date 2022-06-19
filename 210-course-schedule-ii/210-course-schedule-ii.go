@@ -18,11 +18,9 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
         }
     }
     lessons := []int{}
-    ansQueue := []int{}
     for len(queue) != 0 {
         x := queue[0]
         queue = queue[1:len(queue)]
-        ansQueue = append(ansQueue, x)
         lessons = append(lessons, x)
         for _, y := range to[x] {
             inDeg[y]--
@@ -32,7 +30,7 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
         }
     }
     if len(lessons) == numCourses {
-        return ansQueue
+        return lessons
     } else {
         return []int{}
     }
