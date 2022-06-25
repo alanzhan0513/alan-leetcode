@@ -6,47 +6,44 @@
  * }
  */
 func mergeKLists(lists []*ListNode) *ListNode {
-    if len(lists) == 0{
-        return nil
-    }
-    return merge_sort(lists,0,len(lists)-1)
+    return mergeLists(lists, 0, len(lists) - 1)
 }
 
-func merge_sort(lists []*ListNode,low,high int) *ListNode{
-    if low == high{
+func mergeLists(lists []*ListNode, low, high int) *ListNode {
+    if low == high {
         return lists[low]
     }
-    if low > high{
-        return nil   
+    if low > high {
+        return nil
     }
-    mid := low + (high-low)/2
-    return merge(merge_sort(lists,low,mid),merge_sort(lists,mid+1,high))
+    mid := (low + high) / 2
+    return merge(mergeLists(lists, low, mid), mergeLists(lists, mid + 1, high))
 }
 
-func merge(list1,list2 *ListNode) *ListNode{
-    if list1 == nil{
+func merge(list1, list2 *ListNode) *ListNode {
+    if list1 == nil {
         return list2
     }
-    if list2 == nil{
+    if list2 == nil {
         return list1
     }
-    head := &ListNode{}
-    p := head
-    for list1 != nil&&list2 != nil{
-        if list1.Val < list2.Val{
-            p.Next =list1
-            list1 = list1.Next
-        }else{
-            p.Next = list2
+    sentinel := &ListNode{}
+    last := sentinel
+    for list1 != nil && list2 != nil {
+        if list1.Val > list2.Val {
+            last.Next = list2
             list2 = list2.Next
+        } else {
+            last.Next = list1
+            list1 = list1.Next
         }
-        p = p.Next
+        last = last.Next
     }
-    if list1 != nil{
-        p.Next = list1
+    if list1 != nil {
+        last.Next = list1
     }
-    if list2 != nil{
-        p.Next = list2
+    if list2 != nil {
+        last.Next = list2
     }
-    return head.Next
+    return sentinel.Next
 }
