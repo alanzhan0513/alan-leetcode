@@ -3,36 +3,31 @@ func searchRange(nums []int, target int) []int {
         return []int{-1, -1}
     }
     
-    ans := []int{}
-    low := 0
-    high := len(nums) - 1
-    for low != high {
-        mid := (low + high) / 2
+    left := 0
+    right := len(nums) - 1
+    for left != right {
+        mid := (left + right) / 2
         if nums[mid] >= target {
-            high = mid
+            right = mid
         } else {
-            low = mid + 1
+            left = mid + 1
         }
     }
-    if nums[high] != target {
-        return []int{-1, -1} 
-    }
-    ans = append(ans, high)
     
-    low = 0
-    high = len(nums) - 1
-    for low != high {
-        mid := (low + high + 1) / 2
-        if nums[mid] <= target {
-            low = mid
-        } else {
-            high = mid - 1
-        }
-    }
-    ans = append(ans, high)
-    
-    if ans[0] > ans[1] {
+    if nums[right] != target {
         return []int{-1, -1}
     }
-    return []int{ans[0], ans[1]}
+    minIndex := right
+
+    left = 0
+    right = len(nums) - 1
+    for left != right {
+        mid := (left + right + 1) / 2
+        if nums[mid] <= target {
+            left = mid
+        } else {
+            right = mid -1
+        }
+    }
+    return []int{minIndex, right}
 }
