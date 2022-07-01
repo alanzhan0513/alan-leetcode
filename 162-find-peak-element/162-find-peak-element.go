@@ -5,9 +5,9 @@ func findPeakElement(nums []int) int {
         lmid := (left + right) / 2
         rmid := lmid + 1
         if nums[lmid] <= nums[rmid] {
-            left = lmid + 1
+            left = rmid
         } else {
-            right = rmid - 1
+            right = lmid
         }
     }
     return right
