@@ -1,31 +1,40 @@
+var visited map[int]bool
+
 func solve(board [][]byte) {
-    m, n := len(board), len(board[0])
-    var dfs func(r, c int)
-    dfs = func(r, c int) {
-        if r < 0 || r >= m || c < 0 || c >= n { return }
-        if board[r][c] != 'O' { return }
-        board[r][c] = '$'
-        dfs(r+1, c)
-        dfs(r-1, c)
-        dfs(r, c+1)
-        dfs(r, c-1)
-    }
+    x := len(board[0]) - 1
+    y := len(board) - 1
     
-    for r := 0; r < m; r++ {
-        dfs(r, 0)   // top
-        dfs(r, n-1) // bottom
-    }
-    for c := 0; c < n; c++ {
-        dfs(0, c)   // left
-        dfs(m-1, c) // right
-    }
-    for r := 0; r < m; r++ {
-        for c := 0; c < n; c++ {
-            if board[r][c] != '$' {
-                board[r][c] = 'X'
-            } else {
-                board[r][c] = 'O'
+    visited = make(map[int]bool, (x + 1) * (y + 1))
+    for i := 0; i <= x; i++ {
+        for j := 0; j <= y; j++ {
+            if i == 0 || j == 0 || i == x || j == y {
+                dfs(board, i, j)
             }
         }
     }
+    
+    for i := 0; i <= x; i++ {
+        for j := 0; j <= y; j++ {
+            if !visited[hash(i, j)] {
+                board[j][i] = 88
+            }
+        }
+    }
+}
+
+func dfs(board [][]byte, x, y int) {
+    if x < 0 || x > len(board[0]) - 1 || y < 0 || y > len(board) - 1 || visited[hash(x, y)] {
+        return
+    }
+    visited[hash(x, y)] = true
+    if board[y][x] == 79 {
+        dfs(board, x + 1, y)
+        dfs(board, x - 1, y)
+        dfs(board, x, y + 1)
+        dfs(board, x, y - 1)
+    }
+}
+
+func hash(x, y int) int {
+    return y * 1000 + x
 }
