@@ -14,7 +14,7 @@ func lemonadeChange(bills []int) bool {
 }
 
 func canExchange(amount int, coins map[int]int) bool {
-    for _, x := range []int{20, 10, 5} {
+    for _, x := range []int{10, 5} {
         for amount >= x && coins[x] > 0 {
             amount -= x
             coins[x]--
