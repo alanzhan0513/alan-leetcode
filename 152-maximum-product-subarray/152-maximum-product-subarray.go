@@ -1,9 +1,10 @@
 func maxProduct(nums []int) int {
-    max := 1
-    min := 1
-    ans := nums[0]
+    max := nums[0]
+    min := nums[0]
+    ans := max
     
-    for _, n := range nums {
+    for i := 1; i < len(nums); i++ {
+        n := nums[i]
         tempMax := getMax(n, max * n, min * n)
         min = getMin(n, max * n, min * n)
         
