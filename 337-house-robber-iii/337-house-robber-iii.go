@@ -21,9 +21,9 @@ func rob(root *TreeNode) int {
 	val := dfs(root)
 	return max(val[0], val[1])
 }
-func max(i, j int) int {
-	if i > j {
-		return i
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-	return j
+	return b
 }
