@@ -1,61 +1,79 @@
-var to [][]int
-var visited []bool
-var hasCycle bool
 func findRedundantConnection(edges [][]int) []int {
-    n := 0
-    for _, edge := range edges {
-        x := edge[0]
-        y := edge[1]
-        values := []int{n, x, y}
-        n = max(values...)
-    }
-    to = make([][]int, n + 1)
-    visited = make([]bool, n + 1)
-    for _, edge := range edges {
-        x := edge[0]
-        y := edge[1]
-        if to[x] == nil {
-            to[x] = []int{y}
-        } else {
-            to[x] = append(to[x], y)
-        }
-        if to[y] == nil {
-            to[y] = []int{x}
-        } else {
-            to[y] = append(to[y], x)
-        }
-        hasCycle = false
-        for i := 0; i <= n; i++ {
-            visited[i] = false
-        }
-        dfs(x, 0)
-        if hasCycle {
-            return edge
-        }
-    }
-    return []int{}
+
+	edgeNum := len(edges)
+	dSet := newDisjointSet(edgeNum)
+	stack := make(Stack, 0)
+	for i, edge := range edges {
+		dSet.union(i, edge[0]-1, edge[1]-1, &stack)
+	}
+	return edges[stack.pop()]
+
 }
 
-func dfs(x int, father int) {
-    visited[x] = true
-    for _, y := range to[x] {
-        if y == father {
-            continue
-        }
-        if !visited[y] {
-            dfs(y, x)
-        } else {
-            hasCycle = true
-        }
-    }
+type DisjointSet struct {
+
+	parents []int
+	ranks []int
+	count int
+
 }
 
-func max(values ...int) int {
-    max := 0
-    for _, v := range values {
-        if v > max {
-            max = v
-        }
-    }
-    return max
+func newDisjointSet(edgeNum int) *DisjointSet {
+
+	parents := make([]int, edgeNum)
+	for i := range parents{
+		parents[i] = i
+	}
+	ranks := make([]int, edgeNum)
+	return &DisjointSet{
+		parents: parents,
+		ranks: ranks,
+		count: edgeNum,
+	}
+
+}
+
+type Stack []int
+
+func (s *Stack) push(i int){
+	*s = append(*s, i)
+}
+
+func (s *Stack) pop() int {
+	l := len(*s)
+	ans := (*s)[l-1]
+	*s = (*s)[:l-1]
+	return ans
+}
+
+
+
+func (dSet *DisjointSet) find(index int) int {
+
+	parents := dSet.parents
+	if index != parents[index] {
+		parents[index] = dSet.find(parents[index]) // path compression
+	}
+	return parents[index]
+
+}
+
+func (dSet *DisjointSet) union(row, child1, child2 int, stack *Stack) {
+
+	root1 := dSet.find(child1)
+	root2 := dSet.find(child2)
+	if root1 == root2 {
+		stack.push(row)
+	}
+	ranks := dSet.ranks
+	parents := dSet.parents
+	if ranks[root1] < ranks[root2] {
+		parents[root1] = root2
+	} else if ranks[root1] > ranks[root2] {
+		parents[root2] = root1
+	} else {
+		parents[root2] = root1
+		ranks[root1]++
+	}
+
 }
