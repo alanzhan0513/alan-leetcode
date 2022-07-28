@@ -3,9 +3,10 @@ func lemonadeChange(bills []int) bool {
     coins[5] = 0
     coins[10] = 0
     coins[20] = 0
+    
     for _, bill := range bills {
         coins[bill]++
-
+        
         if !canExchange(bill - 5, coins) {
             return false
         }
@@ -20,5 +21,6 @@ func canExchange(amount int, coins map[int]int) bool {
             coins[x]--
         }
     }
+
     return amount == 0
 }
