@@ -1,23 +1,24 @@
 func coinChange(coins []int, amount int) int {
-    var dp =make([]int,amount+1)
-    for i:=0;i<amount+1;i++{
-        dp[i]=amount+1
-    }
-    dp[0]=0
-    for i:=1;i<=amount;i++{
-        for j:=0;j<len(coins);j++{
-            if coins[j]==i{
-                dp[i]=1
-            }else if i>coins[j]{
-                if dp[i]>dp[i-coins[j]]+1{
-                    dp[i]=dp[i-coins[j]]+1
-                }
+    maxInt := 1 << 31 - 1
+    dp := make([]int, amount + 1)
+    dp[0] = 0
+    for i := 1; i <= amount; i++ {
+        dp[i] = maxInt
+        for j := 0; j < len(coins); j++ {
+            if i - coins[j] >= 0 {
+                dp[i] = min(dp[i], dp[i - coins[j]] + 1)
             }
         }
     }
-    if dp[amount]>amount{
+    if dp[amount] == maxInt {
         return -1
-    }else{
-        return dp[amount]
     }
+    return dp[amount]
+}
+
+func min(a, b int) int {
+    if a < b {
+        return a
+    }
+    return b
 }
