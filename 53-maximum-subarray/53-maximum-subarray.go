@@ -1,16 +1,20 @@
 func maxSubArray(nums []int) int {
-    max := nums[0]
-    tmp := nums[0]
-    for i := 1; i < len(nums); i++ {
-        if tmp > 0 {
-            tmp += nums[i]
-        } else {
-            tmp = nums[i]
-        }
-        
-        if tmp > max {
-            max = tmp
-        }
+    length := len(nums)
+    dp := make([]int, length)
+    dp[0] = nums[0]
+    for i := 1; i < length; i++ {
+        dp[i] = max(nums[i] + dp[i - 1], nums[i])
     }
-    return max
+    ans := dp[0]
+    for i := 1; i < length; i++ {
+        ans = max(ans, dp[i])
+    }
+    return ans
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
 }
