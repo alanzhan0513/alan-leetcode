@@ -6,8 +6,7 @@ func moveZeroes(nums []int)  {
             n++
         }
     }
-    for n < len(nums) {
-        nums[n] = 0
-        n++
+    for i := n; i < len(nums); i++ {
+        nums[i] = 0
     }
 }
