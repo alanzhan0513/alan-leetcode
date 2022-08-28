@@ -1,25 +1,22 @@
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
 func reverseKGroup(head *ListNode, k int) *ListNode {
     // 1. grouping and find head and tail of group
-    // 2. reverse in the group
-    // 3. update head and tail link
+    // 2. reverse this group
+    // 3. update head and tail
 
     sentinal := &ListNode{}
     last := sentinal
     for head != nil {
+        // 1. grouping and find head and tail of group
         end := findEnd(head, k)
         if end == nil {
             break
         }
         nextGroupHead := end.Next
         
-        reverseList(head, nextGroupHead)
+        // 2. reverse this group
+        reverseLinkedList(head, nextGroupHead)
+        
+        // 3. update head and tail
         last.Next = end
         head.Next = nextGroupHead
         
@@ -40,7 +37,7 @@ func findEnd(head *ListNode, k int) *ListNode {
     return nil
 }
 
-func reverseList(head, tail *ListNode) {
+func reverseLinkedList(head, tail *ListNode) {
     last := head
     head = head.Next
     for head != tail {
